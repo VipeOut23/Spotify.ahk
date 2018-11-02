@@ -6,6 +6,7 @@ class Spotify {
 		this.Library := new Library(this)
 		this.Albums := new Albums(this)
 		this.Artists := new Artists(this)
+		this.Playlists := new Playlists(this)
 	}
 }
 class Util {
@@ -174,6 +175,9 @@ class Player {
 	GetRecentlyPlayed() {
 		return this.ParentObject.Util.CustomCall("GET", "me/player/recently-played")
 	}
+	GetCurrentlyPlaying() {
+		return this.ParentObject.Util.CustomCall("GET", "me/player/currently-playing")
+	}
 	PausePlayback() {
 		return this.ParentObject.Util.CustomCall("PUT", "me/player/pause")
 	}
@@ -234,6 +238,15 @@ class Library {
 		return this.ParentObject.Util.CustomCall("PUT", "me/tracks?ids=" . TrackID)
 	}
 }
+class Playlists {
+	__New(ByRef ParentObject) {
+		this.ParentObject := ParentObject
+	}
+	AddTrackToPlaylist(TrackID, PlaylistID) {
+		return this.ParentObject.Util.CustomCall("POST", "playlists/" . PlaylistID . "/tracks?uris=spotify:track:" . TrackID)
+	}
+}
+
 class Albums {
 	__New(ByRef ParentObject) {
 		this.ParentObject := ParentObject
